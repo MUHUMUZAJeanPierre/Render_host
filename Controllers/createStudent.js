@@ -1,6 +1,4 @@
-const studentData = require('../Modules/StudentModal');
-
-
+const studentData = require('../Modules/UserModal');
 // const createStudent = async(req,res,next)=>{
 //   try {
 //     const alreadyExist= await studentData.findOne({email:req.body.email});
@@ -48,47 +46,47 @@ const studentData = require('../Modules/StudentModal');
 // module.exports={createStudent, updateStudent, listStudent, searchByName}
 
 // const studentData = require('../Modules/StudentModal');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const signUp = async (req,res,next)=>{
-  try {
-    const {email, password} = req.body
-    const already = await studentData.findOne({email:req.body.email});
-    if(already){
-      res.status(400).json({message:'User already exists'});
-    } else {
-      const encrypted = bcrypt.hashSync(password, 10);
-      const toSave ={
-        email,
-        password: encrypted
-      }
-      const create = await studentData.create(toSave);
-      res.status(200).json({message:'user created successfully', create});
-    }
-  } catch (error) {
-    res.status(500).json({message:'Error creating user', error});
-  }
-}
+// const bcrypt = require('bcryptjs');
+// const jwt = require('jsonwebtoken');
+// const signUp = async (req,res,next)=>{
+//   try {
+//     const {email, password} = req.body
+//     const already = await studentData.findOne({email:req.body.email});
+//     if(already){
+//       res.status(400).json({message:'User already exists'});
+//     } else {
+//       const encrypted = bcrypt.hashSync(password, 10);
+//       const toSave ={
+//         email,
+//         password: encrypted
+//       }
+//       const create = await studentData.create(toSave);
+//       res.status(200).json({message:'user created successfully', create});
+//     }
+//   } catch (error) {
+//     res.status(500).json({message:'Error creating user', error});
+//   }
+// }
 
-const signIn = async (req,res,next)=>{
-  try {
-    const alreadyExist = await studentData.findOne({email:req.body.email})
-    if(alreadyExist){
-      const match = bcrypt.compareSync(req.body.password,alreadyExist.password);
-      if(match){
-        var secret = "gfgdcddccdtddsag";
-        const token = jwt.sign({id:alreadyExist._id},secret,{expiresIn: '12d'});
-        res.status(200).json({message:'login successful', token});
-      } else{
-        res.status(400).json({message: 'password is incorrect'});
-      }
-    } else {
-      res.status(400).json({message:'user does not exist'});
-    }
-  } catch (error) {
-    res.status(400).json({message:'failed to log in', error});
-  }
-}
+// const signIn = async (req,res,next)=>{
+//   try {
+//     const alreadyExist = await studentData.findOne({email:req.body.email})
+//     if(alreadyExist){
+//       const match = bcrypt.compareSync(req.body.password,alreadyExist.password);
+//       if(match){
+//         var secret = "gfgdcddccdtddsag";
+//         const token = jwt.sign({id:alreadyExist._id},secret,{expiresIn: '12d'});
+//         res.status(200).json({message:'login successful', token});
+//       } else{
+//         res.status(400).json({message: 'password is incorrect'});
+//       }
+//     } else {
+//       res.status(400).json({message:'user does not exist'});
+//     }
+//   } catch (error) {
+//     res.status(400).json({message:'failed to log in', error});
+//   }
+// }
 const createStudent = async(req,res,next)=>{
   try {
     const alreadyExist = await studentData.findOne({email:req.body.email})
@@ -141,15 +139,5 @@ const deleteStudentById = async (req, res) => {
     res.status(500).json({ message: 'Error deleting student', error: error.message });
   }
 };
-
-//post image
-
-// const uploadImage = async(req, res, next) => {
-//   try {
-    
-//   } catch (error) {
-    
-//   }
-// }
 
 module.exports = {createStudent, updateStudent,listStudent, searchByName, deleteStudentById}
